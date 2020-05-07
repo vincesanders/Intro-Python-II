@@ -2,6 +2,7 @@ import re
 from room import Room
 from player import Player
 from item import Item
+from utils import print_game_state, handle_direction_input, handle_item_input
 
 # Declare all the rooms
 
@@ -150,18 +151,7 @@ while user_input != "9":
     # * Prints the current room name
     # * Prints the current description (the textwrap module might be useful here).
     # * Waits for user input and decides what to do.
-    print(player.room.art)
-    print(f'{player.name}, {player.room}')
-    if len(player.room.items) is 0:
-        print('This room is empty.')
-    else:
-        for item in player.room.items:
-            print(item)
-    if len(player.items) > 0:
-        for item in player.items:
-            print(f'You are holding a {item.name}')
-    else:
-        print('You are holding nothing.')
+    print_game_state(player)
     user_input = input('''What do you want to do? 
 You can type the direction you want to go.
 If you want to pick up an item, type "get <item>" or "pick up <item>".
@@ -169,44 +159,8 @@ If you want to drop an item, type "drop <item>" or "put down <item>".
 (press 9 to quit): ''').lower()
     ### Remove punctuation from user_input
     user_input = re.sub(r'[^\w\s]+', '', user_input)
-    if 'south' in user_input:
-        direction = 's_to'
-    elif 'north' in user_input:
-        direction = 'n_to'
-    elif 'east' in user_input:
-        direction = 'e_to'
-    elif 'west' in user_input:
-        direction = 'w_to'
-    else:
-        direction = ''
-    if 'get' in user_input or 'pick up' in user_input:
-        inputs = user_input.rsplit(' ')
-        if 'get' in user_input:
-            item = inputs[inputs.index('get') + 1]
-        else:
-            item = inputs[inputs.index('up') + 1]
-        if len(player.items) < 2:
-            player.get_item(items[item]) #TODO validation to ensure item is in room
-            player.room.remove_item(items[item])
-        else:
-            print('You can only have two items. if you want to pick up this item, you will have to drop one of the items you are holding.')
-    elif 'drop' in user_input or 'put down' in user_input:
-        inputs = user_input.rsplit(' ')
-        if 'drop' in user_input:
-            item = inputs[inputs.index('drop') + 1]
-        else:
-            item = inputs[inputs.index('down') + 1]
-        if len(player.items) <= 0:
-            print('You don\'t have any items to drop.')
-        else:
-            player.drop_item(items[item])
-            player.room.add_item(items[item])
-    if hasattr(player.room, direction):
-        player.room = getattr(player.room, direction)
-    elif user_input == '9':
-        print(f'Thanks for playing, {player.name}!')
-    else:
-        print(f'{player.name}, you can\'t go that way.')
+    handle_direction_input(user_input, player)
+    handle_item_input(user_input, player, items)
 
 # If the user enters a cardinal direction, attempt to move to the room there.
 # Print an error message if the movement isn't allowed.
