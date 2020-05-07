@@ -8,7 +8,7 @@ class Room:
         self.items = [] if items is None else items
     def __str__(self):
         return f'you are at the {self.name}. {self.description}'
-    def addItem(self, item):
+    def add_item(self, item):
         self.items.append(item)
-    def removeItem(self, item):
+    def remove_item(self, item):
         self.items.remove(item)
