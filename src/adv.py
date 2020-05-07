@@ -123,6 +123,19 @@ room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
+items = {
+    "key": Item("key", "a key with a handle shaped like a screaming skull."),
+    "coin": Item("coin", "an old gold coin with ancient runes so weathered they are barely visible."),
+    "chest": Item("chest", "an ornamented, but empty treasure chest."),
+    "sword": Item("sword", "an old, slightly rusted rapier with a dulled tip."),
+}
+
+# add items to rooms
+room['treasure'].addItem(items['chest'])
+room['treasure'].addItem(items['coin'])
+room['overlook'].addItem(items['sword'])
+room['foyer'].addItem(items['key'])
+
 #
 # Main
 #
@@ -138,7 +151,12 @@ while userInput != "9":
     # * Waits for user input and decides what to do.
     print(player.room.art)
     print(f'{player.name}, {player.room}')
-    userInput = input('where do you want to go? (press 9 to quit): ').lower()
+    if len(player.room.items) is 0:
+        print('This room is empty.')
+    else:
+        for item in player.room.items:
+            print(item)
+    userInput = input('Where do you want to go? (press 9 to quit): ').lower()
     if 'south' in userInput:
         direction = 's_to'
     elif 'north' in userInput:
