@@ -8,3 +8,7 @@ class Room:
         self.items = []
     def __str__(self):
         return f'you are at the {self.name}. {self.description}'
+    def addItem(self, item):
+        self.items.append(item)
+    def removeItem(self, item):
+        self.items.remove(item)
