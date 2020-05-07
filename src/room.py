@@ -5,5 +5,6 @@ class Room:
         self.name = name
         self.description = description
         self.art = art
+        self.items = []
     def __str__(self):
         return f'you are at the {self.name}. {self.description}'
