@@ -53,3 +53,10 @@ def handle_item_input(user_input, player, items):
             player.drop_item(items[item])
             items[item].on_drop()
             player.room.add_item(items[item])
+def handle_inventory_input(user_input, player):
+    if('inventory' in user_input or user_input == 'i'):
+        if len(player.items) > 0:
+            for item in player.items:
+                print(f'You have {item.description}')
+        else:
+            print("You don't have anything in your inventory.")

@@ -2,7 +2,7 @@ import re
 from room import Room
 from player import Player
 from item import Item
-from utils import print_game_state, handle_direction_input, handle_item_input
+from utils import print_game_state, handle_direction_input, handle_item_input, handle_inventory_input
 
 # Declare all the rooms
 
@@ -161,6 +161,7 @@ If you want to drop an item, type "drop <item>" or "put down <item>".
     user_input = re.sub(r'[^\w\s]+', '', user_input)
     handle_direction_input(user_input, player)
     handle_item_input(user_input, player, items)
+    handle_inventory_input(user_input, player)
 
 # If the user enters a cardinal direction, attempt to move to the room there.
 # Print an error message if the movement isn't allowed.
